@@ -1,0 +1,12 @@
+# Parameter sweep grid for Bollinger Bands strategy
+# This file defines the parameter combinations to test
+
+lookback: [10, 20, 30, 40]
+z_score: [1.5, 2.0, 2.5, 3.0]
+position_size: [0.05, 0.1, 0.15, 0.2]
+
+# Execution parameters to test
+slippage_bps: [0.5, 1.0, 2.0]
+commission_bps: [0.25, 0.5, 1.0]
+# This will generate 4 x 4 x 4 x 3 x 3 = 576 combinations
+# Each combination will be tested in parallel

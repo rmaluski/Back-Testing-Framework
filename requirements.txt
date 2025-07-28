@@ -1,0 +1,43 @@
+# Core dependencies
+numpy>=1.24.0
+pandas>=2.0.0
+pyarrow>=12.0.0
+pybind11>=2.11.0
+
+# Data processing
+duckdb>=0.8.0
+great-expectations>=0.17.0
+
+# Visualization and reporting
+plotly>=5.15.0
+jinja2>=3.1.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# CLI and configuration
+click>=8.1.0
+pyyaml>=6.0
+pydantic>=2.0.0
+
+# Parallel processing
+ray>=2.6.0
+dask>=2023.8.0
+
+# Testing
+pytest>=7.4.0
+pytest-benchmark>=4.0.0
+pytest-cov>=4.1.0
+
+# Development
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# Documentation
+mkdocs>=1.5.0
+mkdocs-material>=9.2.0
+
+# Optional: Live trading integration
+zeromq>=0.0.0
+fastapi>=0.100.0
+uvicorn>=0.23.0 
