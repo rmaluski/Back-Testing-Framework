@@ -1,0 +1,252 @@
+# Strategy Combinations Configuration
+# Multi-factor and combined strategy approaches
+
+data:
+  source: "data/combined_data.parquet"
+  start_date: "2020-01-01"
+  end_date: "2023-12-31"
+  symbols:
+    [
+      "AAPL",
+      "MSFT",
+      "GOOGL",
+      "AMZN",
+      "TSLA",
+      "META",
+      "NVDA",
+      "NFLX",
+      "ADBE",
+      "CRM",
+    ]
+  bar_size: "1D"
+
+# Value + Momentum Combination Strategy
+value_momentum_combo:
+  strategy:
+    class_name: "ValueMomentumCombo"
+    module_path: "strategies.strategy_combiner"
+    params:
+      value_weight: 0.6
+      momentum_weight: 0.4
+      rebalance_frequency: "monthly"
+    initial_capital: 100000.0
+
+  execution:
+    slippage_bps: 1.0
+    commission_bps: 0.5
+    min_tick_size: 0.01
+
+  risk:
+    max_position_size: 100
+    max_drawdown: 0.15
+    position_limit_pct: 0.1
+
+  reporting:
+    output_dir: "./results/value_momentum_combo"
+    save_equity_curve: true
+    save_fills: true
+    save_risk_metrics: true
+    generate_html_report: true
+
+# Quality + Value + Momentum Combination Strategy
+quality_value_momentum_combo:
+  strategy:
+    class_name: "QualityValueMomentumCombo"
+    module_path: "strategies.strategy_combiner"
+    params:
+      quality_weight: 0.4
+      value_weight: 0.3
+      momentum_weight: 0.3
+      rebalance_frequency: "monthly"
+    initial_capital: 100000.0
+
+  execution:
+    slippage_bps: 1.0
+    commission_bps: 0.5
+    min_tick_size: 0.01
+
+  risk:
+    max_position_size: 100
+    max_drawdown: 0.15
+    position_limit_pct: 0.1
+
+  reporting:
+    output_dir: "./results/quality_value_momentum_combo"
+    save_equity_curve: true
+    save_fills: true
+    save_risk_metrics: true
+    generate_html_report: true
+
+# Technical + Fundamental Combination Strategy
+technical_fundamental_combo:
+  strategy:
+    class_name: "TechnicalFundamentalCombo"
+    module_path: "strategies.strategy_combiner"
+    params:
+      fundamental_weight: 0.7
+      technical_weight: 0.3
+      rebalance_frequency: "daily"
+    initial_capital: 100000.0
+
+  execution:
+    slippage_bps: 1.0
+    commission_bps: 0.5
+    min_tick_size: 0.01
+
+  risk:
+    max_position_size: 100
+    max_drawdown: 0.15
+    position_limit_pct: 0.1
+
+  reporting:
+    output_dir: "./results/technical_fundamental_combo"
+    save_equity_curve: true
+    save_fills: true
+    save_risk_metrics: true
+    generate_html_report: true
+
+# Multi-Factor Model Strategy
+multi_factor_model:
+  strategy:
+    class_name: "MultiFactorModel"
+    module_path: "strategies.strategy_combiner"
+    params:
+      rebalance_frequency: "monthly"
+    initial_capital: 100000.0
+
+  execution:
+    slippage_bps: 1.0
+    commission_bps: 0.5
+    min_tick_size: 0.01
+
+  risk:
+    max_position_size: 100
+    max_drawdown: 0.15
+    position_limit_pct: 0.1
+
+  reporting:
+    output_dir: "./results/multi_factor_model"
+    save_equity_curve: true
+    save_fills: true
+    save_risk_metrics: true
+    generate_html_report: true
+
+# Custom Strategy Combination Example
+custom_combo_example:
+  strategy:
+    class_name: "StrategyCombiner"
+    module_path: "strategies.strategy_combiner"
+    params:
+      strategies:
+        - name: "price_to_book_deep_value"
+          type: "fundamental"
+          weight: 0.4
+          params: {}
+        - name: "gross_profitability_factor"
+          type: "quality"
+          weight: 0.3
+          params: {}
+        - name: "cross_sectional_momentum"
+          type: "momentum"
+          weight: 0.3
+          params: {}
+      combination_method: "weighted_sum"
+      rebalance_frequency: "monthly"
+    initial_capital: 100000.0
+
+  execution:
+    slippage_bps: 1.0
+    commission_bps: 0.5
+    min_tick_size: 0.01
+
+  risk:
+    max_position_size: 100
+    max_drawdown: 0.15
+    position_limit_pct: 0.1
+
+  reporting:
+    output_dir: "./results/custom_combo_example"
+    save_equity_curve: true
+    save_fills: true
+    save_risk_metrics: true
+    generate_html_report: true
+
+# Consensus Strategy Combination
+consensus_combo:
+  strategy:
+    class_name: "StrategyCombiner"
+    module_path: "strategies.strategy_combiner"
+    params:
+      strategies:
+        - name: "magic_formula"
+          type: "fundamental"
+          weight: 1.0
+          params: {}
+        - name: "rsi_signal"
+          type: "momentum"
+          weight: 1.0
+          params: {}
+        - name: "gross_profitability_factor"
+          type: "quality"
+          weight: 1.0
+          params: {}
+      combination_method: "consensus"
+      rebalance_frequency: "daily"
+    initial_capital: 100000.0
+
+  execution:
+    slippage_bps: 1.0
+    commission_bps: 0.5
+    min_tick_size: 0.01
+
+  risk:
+    max_position_size: 100
+    max_drawdown: 0.15
+    position_limit_pct: 0.1
+
+  reporting:
+    output_dir: "./results/consensus_combo"
+    save_equity_curve: true
+    save_fills: true
+    save_risk_metrics: true
+    generate_html_report: true
+
+# Majority Vote Strategy Combination
+majority_vote_combo:
+  strategy:
+    class_name: "StrategyCombiner"
+    module_path: "strategies.strategy_combiner"
+    params:
+      strategies:
+        - name: "ev_ebitda_cheapness"
+          type: "fundamental"
+          weight: 0.4
+          params: {}
+        - name: "moving_average_crossover"
+          type: "momentum"
+          weight: 0.3
+          params: {}
+        - name: "return_on_invested_capital"
+          type: "quality"
+          weight: 0.3
+          params: {}
+      combination_method: "majority_vote"
+      rebalance_frequency: "weekly"
+    initial_capital: 100000.0
+
+  execution:
+    slippage_bps: 1.0
+    commission_bps: 0.5
+    min_tick_size: 0.01
+
+  risk:
+    max_position_size: 100
+    max_drawdown: 0.15
+    position_limit_pct: 0.1
+
+  reporting:
+    output_dir: "./results/majority_vote_combo"
+    save_equity_curve: true
+    save_fills: true
+    save_risk_metrics: true
+    generate_html_report: true

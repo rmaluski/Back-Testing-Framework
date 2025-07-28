@@ -9,6 +9,9 @@ A high-performance, event-driven backtesting framework with C++ core and Python 
 - **Realism**: Unified models for slippage, queue priority, exchange fees, borrow costs
 - **Re-use**: Same strategy DLL runs in back-test → paper-trade → live stack
 - **Reporting**: One-click HTML tear-sheet with returns, drawdown, factor attribution
+- **Comprehensive Strategy Library**: 500+ strategies across fundamental, momentum, quality, and technical categories
+- **Strategy Combinations**: Multi-factor approaches with weighted, consensus, and voting methods
+- **Modular Design**: Easy to add new strategies and combine existing ones
 
 ## 🏗️ Architecture
 
@@ -66,6 +69,8 @@ pip install -e .
 
 ## 🎯 Quick Start
 
+### Basic Strategy Example
+
 ```python
 # strategy.py
 from trading_core import StrategyBase, MarketEvent
@@ -94,6 +99,84 @@ Run the backtest:
 
 ```bash
 bt run configs/bollinger_es.yaml --strategy strategy.Bollinger
+```
+
+### Comprehensive Strategy Library
+
+The framework includes 500+ pre-built strategies across multiple categories:
+
+#### Fundamental Strategies (Category A: 1-100)
+
+```python
+from strategies.fundamental_strategies import create_fundamental_strategy
+
+# Price-to-Book Deep Value
+strategy = create_fundamental_strategy('price_to_book_deep_value')
+
+# Magic Formula (EBIT/EV + ROIC)
+strategy = create_fundamental_strategy('magic_formula')
+
+# Quality-Value Combo
+strategy = create_fundamental_strategy('quality_value_combo')
+```
+
+#### Momentum Strategies (Categories D & E: 161-340)
+
+```python
+from strategies.momentum_strategies import create_momentum_strategy
+
+# Cross-Sectional Momentum
+strategy = create_momentum_strategy('cross_sectional_momentum')
+
+# Moving Average Crossover
+strategy = create_momentum_strategy('moving_average_crossover')
+
+# RSI Signal Strategy
+strategy = create_momentum_strategy('rsi_signal')
+```
+
+#### Quality Strategies (Category B: 101-140)
+
+```python
+from strategies.quality_strategies import create_quality_strategy
+
+# Gross Profitability Factor
+strategy = create_quality_strategy('gross_profitability_factor')
+
+# Return on Invested Capital
+strategy = create_quality_strategy('return_on_invested_capital')
+```
+
+#### Strategy Combinations
+
+```python
+from strategies.strategy_combiner import create_strategy_combo
+
+# Value + Momentum Combination
+strategy = create_strategy_combo('value_momentum_combo')
+
+# Quality + Value + Momentum
+strategy = create_strategy_combo('quality_value_momentum_combo')
+
+# Custom Multi-Factor Combination
+custom_strategies = [
+    {'name': 'price_to_book_deep_value', 'type': 'fundamental', 'weight': 0.4},
+    {'name': 'gross_profitability_factor', 'type': 'quality', 'weight': 0.3},
+    {'name': 'cross_sectional_momentum', 'type': 'momentum', 'weight': 0.3}
+]
+strategy = create_custom_combo(custom_strategies, combination_method="weighted_sum")
+```
+
+Run comprehensive examples:
+
+```bash
+# Run strategy showcase
+python examples/strategy_showcase.py
+
+# Run individual strategy categories
+bt run configs/fundamental_strategies.yaml --strategy magic_formula
+bt run configs/momentum_strategies.yaml --strategy cross_sectional_momentum
+bt run configs/strategy_combinations.yaml --strategy value_momentum_combo
 ```
 
 ## 📊 Output
@@ -143,6 +226,72 @@ bt sweep grid.yml --parallel --workers 12
 lookback: [20, 40, 60]
 z: [1.5, 2.0, 2.5]
 slippage_bps: [0.5, 1.0, 2.0]
+```
+
+## 📚 Strategy Library
+
+The framework includes a comprehensive library of 500+ strategies organized into categories:
+
+### Fundamental Strategies (Category A: 1-100)
+
+- **Price-to-Book Deep Value**: Long lowest decile, short highest
+- **EV/EBITDA Cheapness Spread**: Monthly rebalance long low quintile
+- **Net-Net Graham Basket**: Buy if Price < 0.66×NCAV
+- **Magic Formula**: (EBIT/EV + ROIC) - top 30 names
+- **Quality-Value Combo**: Rank equally by P/B and ROE
+- **Shareholder Yield**: Aggregate buybacks + dividend yield
+- **Negative Enterprise Value**: Buy EV < 0 situations
+- And 90+ more fundamental strategies...
+
+### Momentum Strategies (Categories D & E: 161-340)
+
+- **Cross-Sectional Momentum**: 12-1 Month Relative Strength
+- **Time-Series Momentum**: 6-1 Month Momentum
+- **Moving Average Crossover**: Fast MA vs Slow MA
+- **RSI Momentum**: RSI-based momentum signals
+- **MACD Momentum**: MACD histogram momentum
+- **Bollinger Bands Momentum**: Price position relative to bands
+- **Volume-Weighted Momentum**: Momentum weighted by volume
+- And 170+ more momentum strategies...
+
+### Quality Strategies (Category B: 101-140)
+
+- **Gross Profitability Factor**: Long top GP/A
+- **Return on Invested Capital**: Long sustained ROIC > 15%
+- **Earnings Stability**: σ(EPS) < σthreshold
+- **Low Debt-to-Equity Quality**: Long bottom decile D/E
+- **High Interest Coverage**: Long high coverage ratio
+- **Negative Net Debt Screen**: Long negative net debt
+- And 30+ more quality strategies...
+
+### Strategy Combinations
+
+- **Value + Momentum**: Combines fundamental value with momentum
+- **Quality + Value + Momentum**: Three-factor combination
+- **Technical + Fundamental**: Combines technical indicators with fundamental analysis
+- **Multi-Factor Model**: Equal-weighted factor combination
+- **Custom Combinations**: Create your own multi-strategy approaches
+
+### Combination Methods
+
+- **Weighted Sum**: Weighted average of signals
+- **Majority Vote**: Majority vote on direction
+- **Consensus**: All strategies must agree
+- **Hierarchical**: Apply strategies in order
+
+### Usage Examples
+
+```bash
+# Run individual strategies
+bt run configs/fundamental_strategies.yaml --strategy magic_formula
+bt run configs/momentum_strategies.yaml --strategy cross_sectional_momentum
+bt run configs/strategy_combinations.yaml --strategy value_momentum_combo
+
+# Parameter sweeps across strategies
+bt sweep configs/fundamental_strategies.yaml configs/parameter_sweep_grid.yaml --workers 8
+
+# Run comprehensive showcase
+python examples/strategy_showcase.py
 ```
 
 ## 🧪 Testing
